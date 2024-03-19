@@ -45,6 +45,7 @@ M100Module* m100_module_alloc() {
     module->region = DEFAULT_WORKING_REGION;
     module->info = m100_module_info_alloc();
     module->uart = uhf_uart_alloc();
+    module->write_mask = WRITE_EPC | WRITE_TID | WRITE_USER | WRITE_RFU;
     return module;
 }
 
@@ -180,6 +181,18 @@ M100ResponseType m100_set_select(M100Module* module, UHFTag* uhf_tag) {
     if(data[5] != 0x00) return M100ValidationFail; // error if not 0
 
     return M100SuccessResponse;
+}
+
+void m100_enable_write_mask(M100Module* module, WriteMask mask) {
+    module->write_mask |= mask;
+}
+
+void m100_disable_write_mask(M100Module* module, WriteMask mask) {
+    module->write_mask &= ~mask;
+}
+
+bool m100_is_write_mask_enabled(M100Module* module, WriteMask mask) {
+    return (module->write_mask & mask) == mask;
 }
 
 UHFTag* m100_get_select_param(M100Module* module) {

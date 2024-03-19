@@ -30,12 +30,20 @@ typedef enum {
     M100ChecksumFail
 } M100ResponseType;
 
+typedef enum {
+    WRITE_EPC = 1 << 0,
+    WRITE_TID = 1 << 1,
+    WRITE_USER = 1 << 2,
+    WRITE_RFU = 1 << 3
+} WriteMask;
+
 typedef struct {
     M100ModuleInfo* info;
     WorkingRegion region;
     uint16_t region_frequency;
     uint16_t transmitting_power;
     uint16_t max_transmitting_power;
+    uint16_t write_mask;
     bool freq_hopping;
     UHFUart* uart;
 } M100Module;
@@ -79,3 +87,6 @@ M100ResponseType m100_write_label_data_storage(
     uint32_t access_pwd);
 
 uint32_t m100_get_baudrate(M100Module* module);
+void m100_enable_write_mask(M100Module* module, WriteMask mask);
+void m100_disable_write_mask(M100Module* module, WriteMask mask);
+bool m100_is_write_mask_enabled(M100Module* module, WriteMask mask);
