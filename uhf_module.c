@@ -12,7 +12,8 @@ static M100ResponseType setup_and_send_rx(M100Module* module, uint8_t* cmd, size
     // send cmd
     uhf_uart_send_wait(uart, cmd, cmd_length);
     // wait for response by polling
-    while(!uhf_is_buffer_closed(buffer) && !uhf_uart_tick(uart)) {}
+    while(!uhf_is_buffer_closed(buffer) && !uhf_uart_tick(uart)) {
+    }
     // reset tick
     uhf_uart_tick_reset(uart);
     // Validation Checks
@@ -45,7 +46,7 @@ M100Module* m100_module_alloc() {
     module->region = DEFAULT_WORKING_REGION;
     module->info = m100_module_info_alloc();
     module->uart = uhf_uart_alloc();
-    module->write_mask = WRITE_EPC | WRITE_TID | WRITE_USER | WRITE_RFU;
+    module->write_mask = WRITE_EPC;
     return module;
 }
 
