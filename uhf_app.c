@@ -130,6 +130,10 @@ void uhf_free(UHFApp* uhf_app) {
     view_dispatcher_remove_view(uhf_app->view_dispatcher, UHFViewWidget);
     widget_free(uhf_app->widget);
 
+    // Variable Item List
+    view_dispatcher_remove_view(uhf_app->view_dispatcher, UHFViewVariableItemList);
+    variable_item_list_free(uhf_app->variable_item_list);
+
     // Tag
     uhf_tag_wrapper_free(uhf_app->worker->uhf_tag_wrapper);
 
@@ -149,9 +153,6 @@ void uhf_free(UHFApp* uhf_app) {
     // GUI
     furi_record_close(RECORD_GUI);
     uhf_app->gui = NULL;
-
-    // Variable Item List
-    variable_item_list_free(uhf_app->variable_item_list);
 
     // Notifications
     furi_record_close(RECORD_NOTIFICATION);
