@@ -195,14 +195,20 @@ void uhf_show_loading_popup(void* ctx, bool show) {
 
 int32_t uhf_app_main(void* ctx) {
     UNUSED(ctx);
+    bool is_5v_enabled_by_app = false;
+    // enable 5v pin if not enabled
+    if(!furi_hal_power_is_otg_enabled()) {
+        furi_hal_power_enable_otg();
+        is_5v_enabled_by_app = true;
+    }
     UHFApp* uhf_app = uhf_alloc();
-    // enable 5v pin
-    furi_hal_power_enable_otg();
     // enter app
     scene_manager_next_scene(uhf_app->scene_manager, UHFSceneModuleInfo);
     view_dispatcher_run(uhf_app->view_dispatcher);
-    // disable 5v pin
-    furi_hal_power_disable_otg();
+    // disable 5v pin if enabled by app
+    if(is_5v_enabled_by_app) {
+        furi_hal_power_disable_otg();
+    }
     // exit app
     uhf_free(uhf_app);
     return 0;

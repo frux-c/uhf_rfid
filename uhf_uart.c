@@ -70,8 +70,6 @@ UHFUart* uhf_uart_alloc(){
         FURI_LOG_E("UHF_UART", "UHF UART INIT BY HAL");
     }
     uart->buffer = uhf_buffer_alloc(UHF_UART_RX_BUFFER_SIZE);
-    // uart->thread = furi_thread_alloc_ex("UHFUartWorker", UHF_UART_WORKER_STACK_SIZE, uhf_uart_worker_callback, uart);
-    // furi_thread_start(uart->thread);
     furi_hal_serial_async_rx_start(uart->handle, uhf_uart_default_rx_callback, uart, false);
     return uart;
 }   
