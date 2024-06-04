@@ -46,7 +46,7 @@ M100Module* m100_module_alloc() {
     module->region = DEFAULT_WORKING_REGION;
     module->info = m100_module_info_alloc();
     module->uart = uhf_uart_alloc();
-    module->write_mask = WRITE_EPC;
+    module->write_mask = WRITE_EPC; // default to write epc only
     return module;
 }
 

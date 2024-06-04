@@ -1,4 +1,5 @@
 #include "uhf_app_i.h"
+#include "expansion/expansion.h"
 
 char* convertToHexString(uint8_t* array, size_t length) {
     if(array == NULL || length == 0) {
@@ -195,6 +196,8 @@ void uhf_show_loading_popup(void* ctx, bool show) {
 
 int32_t uhf_app_main(void* ctx) {
     UNUSED(ctx);
+    Expansion* expansion = furi_record_open(RECORD_EXPANSION);
+    expansion_disable(expansion);
     bool is_5v_enabled_by_app = false;
     // enable 5v pin if not enabled
     if(!furi_hal_power_is_otg_enabled()) {
@@ -211,5 +214,7 @@ int32_t uhf_app_main(void* ctx) {
     }
     // exit app
     uhf_free(uhf_app);
+    expansion_enable(expansion);
+    furi_record_close(RECORD_EXPANSION);
     return 0;
 }
