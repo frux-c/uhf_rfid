@@ -12,7 +12,8 @@ static M100ResponseType setup_and_send_rx(M100Module* module, uint8_t* cmd, size
     // send cmd
     uhf_uart_send_wait(uart, cmd, cmd_length);
     // wait for response by polling
-    while(!uhf_is_buffer_closed(buffer) && !uhf_uart_tick(uart)) {}
+    while(!uhf_is_buffer_closed(buffer) && !uhf_uart_tick(uart)) {
+    }
     // reset tick
     uhf_uart_tick_reset(uart);
     // Validation Checks
@@ -45,6 +46,7 @@ M100Module* m100_module_alloc() {
     module->region = DEFAULT_WORKING_REGION;
     module->info = m100_module_info_alloc();
     module->uart = uhf_uart_alloc();
+    module->write_mask = WRITE_EPC; // default to write epc only
     return module;
 }
 
@@ -180,6 +182,18 @@ M100ResponseType m100_set_select(M100Module* module, UHFTag* uhf_tag) {
     if(data[5] != 0x00) return M100ValidationFail; // error if not 0
 
     return M100SuccessResponse;
+}
+
+void m100_enable_write_mask(M100Module* module, WriteMask mask) {
+    module->write_mask |= mask;
+}
+
+void m100_disable_write_mask(M100Module* module, WriteMask mask) {
+    module->write_mask &= ~mask;
+}
+
+bool m100_is_write_mask_enabled(M100Module* module, WriteMask mask) {
+    return (module->write_mask & mask) == mask;
 }
 
 UHFTag* m100_get_select_param(M100Module* module) {
