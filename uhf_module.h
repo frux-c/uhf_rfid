@@ -8,12 +8,11 @@
 #include "uhf_buffer.h"
 #include "uhf_module_settings.h"
 
-
-#define FRAME_START 0xBB
-#define FRAME_END 0x7E
-#define DEFAULT_BAUDRATE BAUD_RATES[BAUD_RATES_COUNT - 1]
+#define FRAME_START                0xBB
+#define FRAME_END                  0x7E
+#define DEFAULT_BAUDRATE           BAUD_RATES[BAUD_RATES_COUNT - 1]
 #define DEFAULT_TRANSMITTING_POWER POWER_DBM[POWER_DBM_COUNT - 1]
-#define DEFAULT_WORKING_REGION WR_US
+#define DEFAULT_WORKING_REGION     WR_US
 
 typedef struct {
     char* hw_version;

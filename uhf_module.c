@@ -1,7 +1,7 @@
 #include "uhf_module.h"
 #include "uhf_module_cmd.h"
 
-#define DELAY_MS 100
+#define DELAY_MS  100
 #define WAIT_TICK 4000 // max wait time in between each byte
 
 static M100ResponseType setup_and_send_rx(M100Module* module, uint8_t* cmd, size_t cmd_length) {

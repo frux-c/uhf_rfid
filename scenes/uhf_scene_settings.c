@@ -40,44 +40,44 @@ void uhf_settings_set_module_working_region(VariableItem* item) {
     variable_item_set_current_value_text(item, WORKING_REGIONS_STR[index]);
 }
 
-void uhf_settings_set_epc_write_mask(VariableItem* item){
+void uhf_settings_set_epc_write_mask(VariableItem* item) {
     M100Module* uhf_module = variable_item_get_context(item);
     uint8_t index = variable_item_get_current_value_index(item);
     variable_item_set_current_value_text(item, yes_no[index]);
-    if(index){
+    if(index) {
         m100_enable_write_mask(uhf_module, WRITE_EPC);
         return;
     }
     m100_disable_write_mask(uhf_module, WRITE_EPC);
 }
 
-void uhf_settings_set_tid_write_mask(VariableItem* item){
+void uhf_settings_set_tid_write_mask(VariableItem* item) {
     M100Module* uhf_module = variable_item_get_context(item);
     uint8_t index = variable_item_get_current_value_index(item);
     variable_item_set_current_value_text(item, yes_no[index]);
-    if(index){
+    if(index) {
         m100_enable_write_mask(uhf_module, WRITE_TID);
         return;
     }
     m100_disable_write_mask(uhf_module, WRITE_TID);
 }
 
-void uhf_settings_set_user_write_mask(VariableItem* item){
+void uhf_settings_set_user_write_mask(VariableItem* item) {
     M100Module* uhf_module = variable_item_get_context(item);
     uint8_t index = variable_item_get_current_value_index(item);
     variable_item_set_current_value_text(item, yes_no[index]);
-    if(index){
+    if(index) {
         m100_enable_write_mask(uhf_module, WRITE_USER);
         return;
     }
     m100_disable_write_mask(uhf_module, WRITE_USER);
 }
 
-void uhf_settings_set_rfu_write_mask(VariableItem* item){
+void uhf_settings_set_rfu_write_mask(VariableItem* item) {
     M100Module* uhf_module = variable_item_get_context(item);
     uint8_t index = variable_item_get_current_value_index(item);
     variable_item_set_current_value_text(item, yes_no[index]);
-    if(index){
+    if(index) {
         m100_enable_write_mask(uhf_module, WRITE_RFU);
         return;
     }
@@ -156,49 +156,30 @@ void uhf_scene_settings_on_enter(void* ctx) {
 
     view_dispatcher_switch_to_view(uhf_app->view_dispatcher, UHFViewVariableItemList);
 
-    
     // Add write modes
-    value_index = m100_is_write_mask_enabled(uhf_module, WRITE_EPC)? 1: 0;
+    value_index = m100_is_write_mask_enabled(uhf_module, WRITE_EPC) ? 1 : 0;
     item = variable_item_list_add(
-        variable_item_list,
-        "Write EPC:",
-        2,
-        uhf_settings_set_epc_write_mask,
-        uhf_module);
+        variable_item_list, "Write EPC:", 2, uhf_settings_set_epc_write_mask, uhf_module);
     variable_item_set_current_value_text(item, yes_no[value_index]);
     variable_item_set_current_value_index(item, value_index);
 
-    value_index = m100_is_write_mask_enabled(uhf_module, WRITE_TID)? 1: 0;
+    value_index = m100_is_write_mask_enabled(uhf_module, WRITE_TID) ? 1 : 0;
     item = variable_item_list_add(
-        variable_item_list,
-        "Write TID:",
-        2,
-        uhf_settings_set_tid_write_mask,
-        uhf_module);
+        variable_item_list, "Write TID:", 2, uhf_settings_set_tid_write_mask, uhf_module);
     variable_item_set_current_value_text(item, yes_no[value_index]);
     variable_item_set_current_value_index(item, value_index);
 
-    value_index = m100_is_write_mask_enabled(uhf_module, WRITE_USER)? 1: 0;
+    value_index = m100_is_write_mask_enabled(uhf_module, WRITE_USER) ? 1 : 0;
     item = variable_item_list_add(
-        variable_item_list,
-        "Write User:",
-        2,
-        uhf_settings_set_user_write_mask,
-        uhf_module);
+        variable_item_list, "Write User:", 2, uhf_settings_set_user_write_mask, uhf_module);
     variable_item_set_current_value_text(item, yes_no[value_index]);
     variable_item_set_current_value_index(item, value_index);
 
-    value_index = m100_is_write_mask_enabled(uhf_module, WRITE_RFU)? 1: 0;
+    value_index = m100_is_write_mask_enabled(uhf_module, WRITE_RFU) ? 1 : 0;
     item = variable_item_list_add(
-        variable_item_list,
-        "Write RFU:",
-        2,
-        uhf_settings_set_rfu_write_mask,
-        uhf_module);
+        variable_item_list, "Write RFU:", 2, uhf_settings_set_rfu_write_mask, uhf_module);
     variable_item_set_current_value_text(item, yes_no[value_index]);
     variable_item_set_current_value_index(item, value_index);
-
-
 }
 
 bool uhf_scene_settings_on_event(void* ctx, SceneManagerEvent event) {
